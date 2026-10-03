@@ -19,14 +19,17 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Download Pre-trained TTS Model into Assets
+      - name: Setup Hindi TTS Model (Priyamvada) into Assets
         working-directory: android/SherpaOnnxTtsEngine/app/src/main
         run: |
           mkdir -p assets
           cd assets
-          curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-amy-low.tar.bz2
-          tar xvf vits-piper-en_US-amy-low.tar.bz2 --strip-components=1
-          rm -rf *.tar.bz2 *.onnx.data* test*
+          rm -rf *
+          curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-hi_IN-priyamvada-medium.tar.bz2
+          tar xvf vits-piper-hi_IN-priyamvada-medium.tar.bz2
+          rm -f vits-piper-hi_IN-priyamvada-medium.tar.bz2
+          ls -la
+          ls -la vits-piper-hi_IN-priyamvada-medium
 
       - name: Build Debug APK
         working-directory: android/SherpaOnnxTtsEngine
