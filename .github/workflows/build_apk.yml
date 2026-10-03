@@ -19,11 +19,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Download Pre-trained TTS Model into Assets
+        working-directory: android/SherpaOnnxTtsEngine/app/src/main
+        run: |
+          mkdir -p assets
+          cd assets
+          curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-amy-low.tar.bz2
+          tar xvf vits-piper-en_US-amy-low.tar.bz2 --strip-components=1
+          rm -rf *.tar.bz2 *.onnx.data* test*
+
       - name: Build Debug APK
         working-directory: android/SherpaOnnxTtsEngine
         run: |
           chmod +x ./gradlew
-          ./gradlew assembleDebug -Ptarget-abi=arm64-v8a --no-daemon --stacktrace
+          ./gradlew assembleDebug -Ptarget-abi=arm64-v8a --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
