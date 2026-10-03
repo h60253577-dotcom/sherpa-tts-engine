@@ -22,16 +22,16 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Build Universal Debug APK (All Architectures)
+      - name: Build Debug APK (Target arm64-v8a)
         working-directory: android/SherpaOnnxTtsEngine
         env:
-          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m"
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m"
         run: |
           chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace --console=plain
+          ./gradlew assembleDebug -Ptarget-abi=arm64-v8a --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: sherpa-universal-tts
+          name: sherpa-arm64-tts
           path: android/SherpaOnnxTtsEngine/app/build/outputs/apk/debug/*.apk
